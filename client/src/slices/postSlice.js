@@ -16,6 +16,7 @@ const postSlice = createSlice({
     updateSuccess:({ posts }, action) => {
       posts.map(post => (post._id === action.payload._id ? action.payload : post));
       },
+   
       deleteSuccess: ({ posts }, action) => {
         posts.filter(post => post._id !== action.payload);
       }
@@ -65,8 +66,9 @@ export const deletePost = (id) => async dispatch => {
   }
 }
 export const likePost = (id) => async dispatch => {
+  const user = JSON.parse(localStorage.getItem('profile'));
   try {
-    const { data } = await api.likePost(id);
+    const { data } = await api.likePost(id,user?.token);
     dispatch(updateSuccess(data));
     dispatch(getPosts());
   } catch (error) {

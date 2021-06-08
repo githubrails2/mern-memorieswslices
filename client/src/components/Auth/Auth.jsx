@@ -44,9 +44,12 @@ const Auth = () => {
     const switchMode = () => {
         setFormData(initialState);
         setIsSignUp((previsSignUp) => !previsSignUp)
-        handleShowPassword(false);
+        
     }
-    const handleShowPassword = () => setShowPassword(!showPassword)
+    const handleShowPassword = () => {
+        console.log("First Entering",showPassword)
+        setShowPassword(!showPassword)
+    }
     const googleSuccess = async (res) => {
         const result = res?.profileObj;
         const token = res?.tokenId;
@@ -85,12 +88,16 @@ const Auth = () => {
                             )
                         }
                         <Input name="email" label="Email Address" handleChange={handleChange} type="email" />
-                        <Input name="password" label="Password" handleChange={handleChange} type={showPassword ? 'text' : 'password'} handleShowPassword={handleShowPassword} />
+                        <Input name="password" label="Password" handleChange={handleChange} type={showPassword ? 'text' : 'password'} handleShowPassword={()=> handleShowPassword} />
                         {isSignUp &&
-                            <Input name="confirmPassword" label="Repeat Password" handleChange={handleChange}  handleShowPassword={handleShowPassword} type="password" />
+                            <Input name="confirmPassword" label="Repeat Password" handleChange={handleChange}  type="password" />
                         }
                                                
                     </Grid>
+                    
+                    <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
+                        {isSignUp ? 'Sign up ': 'Sign In'}
+                    </Button>
                     <GoogleLogin
                         clientId="855303332481-iupl3l3tscgr8m6467setrjbi2ju5e04.apps.googleusercontent.com"
                         render={renderProps => (
@@ -100,12 +107,9 @@ const Auth = () => {
                         onFailure={googleFailure}
                         cookiePolicy="single_host_origin"
                     />
-                    <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
-                        {isSignUp ? 'Sign up ': 'Sign In'}
-                    </Button>
                     <Grid container justify="flex-end">
                         <Grid item>
-                            <Button onClick={switchMode}>{isSignUp ? "Already have an account? Sign In": "Dont have an account? Sign Up"}</Button>
+                            <Button variant="contained" color="primary" onClick={switchMode}>{isSignUp ? "Already have an account? Sign In": "Dont have an account? Sign Up"}</Button>
                         </Grid>
                     </Grid>
                 </form>

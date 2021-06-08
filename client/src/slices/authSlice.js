@@ -23,7 +23,7 @@ export const { signInSuccess, SignOut } = loginSlice.actions
 
 export const signin = (formData, history) => async (dispatch) => {
     try {
-        const { data }  = await api.signIn(formData);
+        const { data } = await api.signIn(formData);
         dispatch(signInSuccess(data));
         history.push('/');
     } catch (error) {
